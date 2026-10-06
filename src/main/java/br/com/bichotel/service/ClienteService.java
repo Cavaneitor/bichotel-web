@@ -2,6 +2,7 @@ package br.com.bichotel.service;
 
 import br.com.bichotel.exception.RecursoNaoEncontradoException;
 import br.com.bichotel.model.Cliente;
+import br.com.bichotel.repository.AgendamentoRepository;
 import br.com.bichotel.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +11,14 @@ import java.util.List;
 @Service
 public class ClienteService {
 
+    private final ClienteRepository clienteRepository;
+    private final AgendamentoRepository agendamentoRepository;
+
     @Autowired
-    private ClienteRepository clienteRepository;
+    public ClienteService(ClienteRepository clienteRepository, AgendamentoRepository agendamentoRepository) {
+        this.clienteRepository = clienteRepository;
+        this.agendamentoRepository = agendamentoRepository;
+    }
 
     public List<Cliente> listar(String tutor) {
         if (tutor == null || tutor.isBlank()) {
@@ -48,6 +55,14 @@ public class ClienteService {
     public void excluir(Long id) {
         if (!clienteRepository.existsById(id)) {
             throw new RecursoNaoEncontradoException("Cliente não encontrado.");
+        }
+        // Correção do bug #01: antes de excluir, verifica se existem agendamentos
+        // vinculados a este cliente. Sem essa checagem, o banco rejeitava a exclusão
+        // por causa da chave estrangeira, e o erro bruto do SQL vazava para a tela.
+        if (agendamentoRepository.existsByClienteId(id)) {
+            throw new IllegalArgumentException(
+                "Não é possível excluir: existem agendamentos vinculados a este cliente. " +
+                "Exclua ou reatribua os agendamentos antes de excluir o cliente.");
         }
         clienteRepository.deleteById(id);
     }
