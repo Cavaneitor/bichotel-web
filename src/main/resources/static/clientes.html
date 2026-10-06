@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clientes · BichoTel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <svg class="paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <ellipse cx="12" cy="15.5" rx="6" ry="5"/>
+          <ellipse cx="5" cy="8" rx="2.2" ry="3"/>
+          <ellipse cx="19" cy="8" rx="2.2" ry="3"/>
+          <ellipse cx="9" cy="4.5" rx="2" ry="2.7"/>
+          <ellipse cx="15" cy="4.5" rx="2" ry="2.7"/>
+        </svg>
+        <span class="sidebar__brand-name">BichoTel</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a class="sidebar__link is-active" href="clientes.html">
+          <svg class="paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="15.5" rx="6" ry="5"/><ellipse cx="5" cy="8" rx="2.2" ry="3"/><ellipse cx="19" cy="8" rx="2.2" ry="3"/><ellipse cx="9" cy="4.5" rx="2" ry="2.7"/><ellipse cx="15" cy="4.5" rx="2" ry="2.7"/></svg>
+          Clientes
+        </a>
+        <a class="sidebar__link" href="agendamentos.html">
+          <svg class="paw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          Agendamentos
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="sidebar__user">Olá, Cava</div>
+        <button class="link-sair" data-acao="sair" type="button">Sair</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div>
+          <span class="topbar__eyebrow">Cadastro</span>
+          <h1>Clientes</h1>
+        </div>
+        <button class="btn btn-primary" id="btnNovoCliente" type="button">+ Novo cliente</button>
+      </header>
+
+      <section class="content">
+        <div class="toolbar">
+          <input type="search" id="buscaTutor" placeholder="Buscar por tutor...">
+        </div>
+
+        <div class="card table-wrap">
+          <table class="data-table" id="tabelaClientes">
+            <thead>
+              <tr>
+                <th>Tutor</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Animal / Raça</th>
+                <th class="col-actions">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="corpoTabelaClientes"></tbody>
+          </table>
+          <div class="empty-state" id="estadoVazioClientes" hidden>
+            <svg class="paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="15.5" rx="6" ry="5"/><ellipse cx="5" cy="8" rx="2.2" ry="3"/><ellipse cx="19" cy="8" rx="2.2" ry="3"/><ellipse cx="9" cy="4.5" rx="2" ry="2.7"/><ellipse cx="15" cy="4.5" rx="2" ry="2.7"/></svg>
+            <p>Nenhum cliente encontrado.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Modal: novo/editar cliente -->
+  <div class="modal-overlay" id="modalCliente">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalClienteTitulo">
+      <div class="modal__header">
+        <h2 id="modalClienteTitulo">Novo cliente</h2>
+        <button class="modal__close" type="button" data-fechar-modal aria-label="Fechar">&times;</button>
+      </div>
+
+      <form id="formCliente" novalidate>
+        <input type="hidden" id="clienteId">
+
+        <div class="field-row">
+          <div class="field" id="fieldTutor">
+            <label for="tutor">Tutor</label>
+            <input type="text" id="tutor" placeholder="Nome do tutor">
+            <span class="error-msg"></span>
+          </div>
+          <div class="field" id="fieldCpf">
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14">
+            <span class="error-msg"></span>
+          </div>
+        </div>
+
+        <div class="field" id="fieldEndereco">
+          <label for="endereco">Endereço</label>
+          <input type="text" id="endereco" placeholder="Rua, número, bairro">
+          <span class="error-msg"></span>
+        </div>
+
+        <div class="field-row">
+          <div class="field" id="fieldTelefone">
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" placeholder="99999-9999" maxlength="10">
+            <span class="error-msg"></span>
+          </div>
+          <div class="field" id="fieldAnimal">
+            <label for="animal">Animal</label>
+            <input type="text" id="animal" placeholder="Nome do animal">
+            <span class="error-msg"></span>
+          </div>
+        </div>
+
+        <div class="field" id="fieldRaca">
+          <label for="raca">Raça</label>
+          <input type="text" id="raca" placeholder="Raça do animal">
+          <span class="error-msg"></span>
+        </div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn-ghost" data-fechar-modal>Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar cliente</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/validacao.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/clientes.js"></script>
+</body>
+</html>

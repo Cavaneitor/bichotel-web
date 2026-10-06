@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar · BichoTel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body class="login-page">
+
+  <main class="login-card card">
+    <div class="login-card__mark">
+      <svg class="paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <ellipse cx="12" cy="15.5" rx="6" ry="5"/>
+        <ellipse cx="5" cy="8" rx="2.2" ry="3"/>
+        <ellipse cx="19" cy="8" rx="2.2" ry="3"/>
+        <ellipse cx="9" cy="4.5" rx="2" ry="2.7"/>
+        <ellipse cx="15" cy="4.5" rx="2" ry="2.7"/>
+      </svg>
+    </div>
+
+    <h1>BichoTel</h1>
+    <p class="login-card__subtitle">Entre para gerenciar clientes e agendamentos</p>
+
+    <div class="login-alert" id="loginAlert" role="alert"></div>
+
+    <form class="login-form" id="formLogin" novalidate>
+      <div class="field" id="fieldUsuario">
+        <label for="usuario">Usuário</label>
+        <input type="text" id="usuario" name="usuario" autocomplete="username" placeholder="Digite seu usuário">
+        <span class="error-msg"></span>
+      </div>
+
+      <div class="field" id="fieldSenha">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" autocomplete="current-password" placeholder="Digite sua senha">
+        <span class="error-msg"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+    </form>
+
+    <div class="login-demo">
+      Credenciais de demonstração: usuário <code>Cava</code> · senha <code>1234</code>
+    </div>
+  </main>
+
+  <script src="js/validacao.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

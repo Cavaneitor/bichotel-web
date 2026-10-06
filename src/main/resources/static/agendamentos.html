@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamentos · BichoTel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <svg class="paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <ellipse cx="12" cy="15.5" rx="6" ry="5"/>
+          <ellipse cx="5" cy="8" rx="2.2" ry="3"/>
+          <ellipse cx="19" cy="8" rx="2.2" ry="3"/>
+          <ellipse cx="9" cy="4.5" rx="2" ry="2.7"/>
+          <ellipse cx="15" cy="4.5" rx="2" ry="2.7"/>
+        </svg>
+        <span class="sidebar__brand-name">BichoTel</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a class="sidebar__link" href="clientes.html">
+          <svg class="paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="15.5" rx="6" ry="5"/><ellipse cx="5" cy="8" rx="2.2" ry="3"/><ellipse cx="19" cy="8" rx="2.2" ry="3"/><ellipse cx="9" cy="4.5" rx="2" ry="2.7"/><ellipse cx="15" cy="4.5" rx="2" ry="2.7"/></svg>
+          Clientes
+        </a>
+        <a class="sidebar__link is-active" href="agendamentos.html">
+          <svg class="paw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          Agendamentos
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="sidebar__user">Olá, Cava</div>
+        <button class="link-sair" data-acao="sair" type="button">Sair</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <div>
+          <span class="topbar__eyebrow">Agenda</span>
+          <h1>Agendamentos</h1>
+        </div>
+        <button class="btn btn-primary" id="btnNovoAgendamento" type="button">+ Novo agendamento</button>
+      </header>
+
+      <section class="content">
+        <div class="toolbar">
+          <button class="filter-pill is-active" data-filtro="todos" type="button">Todos</button>
+          <button class="filter-pill" data-filtro="agendado" type="button">Agendados</button>
+          <button class="filter-pill" data-filtro="concluido" type="button">Concluídos</button>
+        </div>
+
+        <div class="card table-wrap">
+          <table class="data-table" id="tabelaAgendamentos">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Serviço</th>
+                <th>Cliente / Animal</th>
+                <th>Valor</th>
+                <th>Status</th>
+                <th class="col-actions">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="corpoTabelaAgendamentos"></tbody>
+          </table>
+          <div class="empty-state" id="estadoVazioAgendamentos" hidden>
+            <svg class="paw" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="15.5" rx="6" ry="5"/><ellipse cx="5" cy="8" rx="2.2" ry="3"/><ellipse cx="19" cy="8" rx="2.2" ry="3"/><ellipse cx="9" cy="4.5" rx="2" ry="2.7"/><ellipse cx="15" cy="4.5" rx="2" ry="2.7"/></svg>
+            <p>Nenhum agendamento encontrado.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Modal: novo/editar agendamento -->
+  <div class="modal-overlay" id="modalAgendamento">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalAgendamentoTitulo">
+      <div class="modal__header">
+        <h2 id="modalAgendamentoTitulo">Novo agendamento</h2>
+        <button class="modal__close" type="button" data-fechar-modal aria-label="Fechar">&times;</button>
+      </div>
+
+      <form id="formAgendamento" novalidate>
+        <input type="hidden" id="agendamentoId">
+
+        <div class="field-row">
+          <div class="field" id="fieldCliente">
+            <label for="clienteSelect">Cliente</label>
+            <select id="clienteSelect"></select>
+            <span class="error-msg"></span>
+          </div>
+          <div class="field" id="fieldServico">
+            <label for="servico">Serviço</label>
+            <input type="text" id="servico" placeholder="Ex: Hospedagem 3 diárias">
+            <span class="error-msg"></span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field" id="fieldData">
+            <label for="data">Data</label>
+            <input type="date" id="data">
+            <span class="error-msg"></span>
+          </div>
+          <div class="field" id="fieldValor">
+            <label for="valor">Valor</label>
+            <input type="text" id="valor" placeholder="12,00" inputmode="decimal">
+            <span class="hint">Use vírgula para os centavos. Ex: 150,00</span>
+            <span class="error-msg"></span>
+          </div>
+        </div>
+
+        <div class="field" id="fieldObservacao">
+          <label for="observacao">Observação</label>
+          <textarea id="observacao" rows="3" placeholder="Detalhes do agendamento"></textarea>
+          <span class="error-msg"></span>
+        </div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn-ghost" data-fechar-modal>Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar agendamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/validacao.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/agendamentos.js"></script>
+</body>
+</html>
