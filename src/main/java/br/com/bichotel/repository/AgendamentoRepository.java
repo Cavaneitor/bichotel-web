@@ -7,4 +7,5 @@ import java.util.List;
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
     List<Agendamento> findByStatus(String status);
     List<Agendamento> findAllByOrderByDataAsc();
+    boolean existsByClienteId(Long clienteId);
 }
